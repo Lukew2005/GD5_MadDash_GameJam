@@ -373,6 +373,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sectionsPrefabs:
   - {fileID: 4578263958751584448, guid: 9d94fefc7577c014db2d3d632650a82c, type: 3}
+  - {fileID: 1247068385770760528, guid: b72a4a72a5d7d4347ae55bf077f9e44e, type: 3}
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
