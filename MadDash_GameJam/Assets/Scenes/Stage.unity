@@ -373,7 +373,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sectionsPrefabs:
   - {fileID: 4578263958751584448, guid: 9d94fefc7577c014db2d3d632650a82c, type: 3}
-  - {fileID: 1247068385770760528, guid: b72a4a72a5d7d4347ae55bf077f9e44e, type: 3}
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -778,7 +777,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 5d27d427feabc94469a62e70f86f099c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 5d27d427feabc94469a62e70f86f099c, type: 3}
       propertyPath: m_LocalPosition.y
@@ -786,7 +785,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 5d27d427feabc94469a62e70f86f099c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 0.13
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 5d27d427feabc94469a62e70f86f099c, type: 3}
       propertyPath: m_LocalRotation.w
