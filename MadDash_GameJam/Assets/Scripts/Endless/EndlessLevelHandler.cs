@@ -66,7 +66,7 @@ public class EndlessLevelHandler : MonoBehaviour
             {
                 sections[i].SetActive(false);
                 sections[i] = GetRandomSectionFromPool();
-                sections[i].transform.position = new Vector3(sectionsPool[i].transform.position.x, 0, nextZ);
+                sections[i].transform.position = new Vector3(sectionsPool[i].transform.position.x, -100, nextZ);
                 sections[i].SetActive(true);
                 nextZ += sectionLength;
             }
