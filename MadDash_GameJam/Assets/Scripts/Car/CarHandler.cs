@@ -10,6 +10,9 @@ public class CarHandler : MonoBehaviour
     [SerializeField]
     Transform gameModel;
 
+    [SerializeField]
+    ExplodeHandler explodeHandler;
+
     // Max values
     float maxSteeringVelocity = 2;
     float maxForwardVelocity = 30;
@@ -22,10 +25,8 @@ public class CarHandler : MonoBehaviour
     // Input
     Vector2 input = Vector2.zero;
 
-    void Start()
-    {
-
-    }
+    // Explode state
+    bool isExploded = false;
 
     void Update()
     {
@@ -35,6 +36,15 @@ public class CarHandler : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (isExploded)
+        {
+            rb.linearDamping = rb.linearVelocity.z * 0.1f;
+            rb.linearDamping = Mathf.Clamp(rb.linearDamping, 1.5f, 10);
+
+            rb.MovePosition(Vector3.Lerp(transform.position, new Vector3(0, 0, transform.position.z), Time.deltaTime * 0.5f));
+            return;
+        }
+
         if (input.y > 0)
         {
             Accelerate();
@@ -105,5 +115,14 @@ public class CarHandler : MonoBehaviour
         inputVector.Normalize();
         
         input = inputVector;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log("Collision detected with " + collision.gameObject.name);
+
+        Vector3 velocity = rb.linearVelocity;
+        explodeHandler.Explode(velocity * 45);
+        isExploded = true;
     }
 }
