@@ -19,9 +19,9 @@ public class UIManager : MonoBehaviour
 
     IEnumerator carMovesIn()
     {
-        car.DOMove(new Vector3(3, -3.3f, 0), 1);
+        car.DOMove(new Vector3(3, -3.35f, 0), 1);
         yield return new WaitForSeconds(1f);
-        car.DOMove(new Vector3(-3, -3.3f, 0), 1);
+        car.DOMove(new Vector3(-4, -3.35f, 0), 1);
 
 
 
@@ -29,9 +29,9 @@ public class UIManager : MonoBehaviour
 
     IEnumerator gameStart()
     {
-        car.DOMove(new Vector3(-3, -3.3f, 0), 1);
+        car.DOMove(new Vector3(-2, -3.35f, 0), 1);
         yield return new WaitForSeconds(1f);
-        car.DOMove(new Vector3(15, -3.3f, 0), 1.5f);
+        car.DOMove(new Vector3(15, -3.35f, 0), 1.5f);
         yield return new WaitForSeconds(1.5f);
         SceneManager.LoadScene(1);
     }
