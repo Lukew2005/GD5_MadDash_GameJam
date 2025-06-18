@@ -17,11 +17,13 @@ public class ExplodeHandler : MonoBehaviour
 
     void Start()
     {
-        Explode(Vector3.forward);
+        // Explode(Vector3.forward);
     }
 
     public void Explode(Vector3 externalForce)
     {
+        Debug.Log("Exploding " + originalObject.name + " with force: " + externalForce);
+
         originalObject.SetActive(false);
 
         foreach (Rigidbody rb in rigidbodies)
