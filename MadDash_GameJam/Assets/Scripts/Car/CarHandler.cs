@@ -1,5 +1,5 @@
 using System;
-using System.Security.Cryptography;
+using System.Collections;
 using UnityEngine;
 
 public class CarHandler : MonoBehaviour
@@ -30,6 +30,11 @@ public class CarHandler : MonoBehaviour
 
     void Update()
     {
+        if (isExploded)
+        {
+            return;
+        }
+
         // Rotate the car model when turning
         gameModel.transform.rotation = Quaternion.Euler(0, rb.linearVelocity.x * 5, 0);
     }
@@ -117,12 +122,35 @@ public class CarHandler : MonoBehaviour
         input = inputVector;
     }
 
+
+    IEnumerator SlowDownTime()
+    {
+        while (Time.timeScale > 0.2f)
+        {
+            Time.timeScale -= Time.deltaTime * 2;
+            yield return null;
+        }
+
+        yield return new WaitForSeconds(0.5f);
+
+        while (Time.timeScale < 1.0f)
+        {
+            Time.timeScale += Time.deltaTime;
+            yield return null;
+        }
+
+        Time.timeScale = 1.0f;
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("Collision detected with " + collision.gameObject.name);
+        // Debug.Log("Collision detected with " + collision.gameObject.name);
 
         Vector3 velocity = rb.linearVelocity;
         explodeHandler.Explode(velocity * 45);
+
         isExploded = true;
+
+        StartCoroutine(SlowDownTime());
     }
 }
