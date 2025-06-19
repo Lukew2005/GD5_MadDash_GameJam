@@ -38,6 +38,8 @@ public class AICarSpawner : MonoBehaviour
             }
         }
 
+        SpawnNewCars(60);
+        SpawnNewCars(80);
         StartCoroutine(UpdateLessOften());
     }
 
@@ -74,9 +76,10 @@ public class AICarSpawner : MonoBehaviour
         }
     }
 
-    private void SpawnNewCars()
+    private void SpawnNewCars(int distanceAhead = 100)
     {
         GameObject carToSpawn = null;
+        float yPos = 0.0f;
 
         foreach (GameObject aiCar in carAIPool)
         {
@@ -86,6 +89,7 @@ public class AICarSpawner : MonoBehaviour
             }
 
             carToSpawn = aiCar;
+            yPos = aiCar.transform.position.y;
             break;
         }
 
@@ -94,7 +98,8 @@ public class AICarSpawner : MonoBehaviour
             return;
         }
 
-        Vector3 spawnPosition = new Vector3(0, 0.4f, playerCarTransform.transform.position.z + 100);
+        Vector3 spawnPosition = new Vector3(0, yPos, 
+            playerCarTransform.transform.position.z + distanceAhead);
 
         if (Physics.OverlapBoxNonAlloc(spawnPosition, Vector3.one * 2, overlappedCheckCollider, 
             Quaternion.identity, otherCarsLayerMask) > 0)
