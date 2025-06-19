@@ -13,6 +13,11 @@ public class AICarSpawner : MonoBehaviour
 
     Transform playerCarTransform;
 
+    [SerializeField]
+    LayerMask otherCarsLayerMask;
+
+    Collider[] overlappedCheckCollider = new Collider[1];
+
     void Start()
     {
         playerCarTransform = GameObject.FindGameObjectWithTag("Player").transform;
@@ -89,7 +94,13 @@ public class AICarSpawner : MonoBehaviour
             return;
         }
 
-        Vector3 spawnPosition = new Vector3(0, 0, playerCarTransform.transform.position.z + 100);
+        Vector3 spawnPosition = new Vector3(0, 0.4f, playerCarTransform.transform.position.z + 100);
+
+        if (Physics.OverlapBoxNonAlloc(spawnPosition, Vector3.one * 2, overlappedCheckCollider, 
+            Quaternion.identity, otherCarsLayerMask) > 0)
+        {
+            return;
+        }
 
         carToSpawn.transform.position = spawnPosition;
         carToSpawn.SetActive(true);

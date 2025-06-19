@@ -37,6 +37,7 @@ public class ExplodeHandler : MonoBehaviour
             rb.interpolation = RigidbodyInterpolation.Interpolate;
             rb.AddForce(externalForce + 200 * Vector3.up, ForceMode.Force);
             rb.AddTorque(Random.insideUnitSphere * 0.5f, ForceMode.Impulse);
+            rb.gameObject.tag = "AICarPart";
         }
     }
 }

@@ -25,8 +25,14 @@ public class CarHandler : MonoBehaviour
     // Input
     Vector2 input = Vector2.zero;
 
-    // Explode state
+    // States
     bool isExploded = false;
+    bool isPlayer = true;
+
+    private void Start()
+    {
+        isPlayer = CompareTag("Player"); 
+    }
 
     void Update()
     {
@@ -122,29 +128,45 @@ public class CarHandler : MonoBehaviour
         input = inputVector;
     }
 
+    public void SetMaxSpeed(float maxSpeed)
+    {
+        maxForwardVelocity = maxSpeed;
+    }
 
     IEnumerator SlowDownTime()
     {
-        while (Time.timeScale > 0.2f)
+        try
         {
-            Time.timeScale -= Time.deltaTime * 2;
-            yield return null;
+            while (Time.timeScale > 0.2f)
+            {
+                Time.timeScale -= Time.deltaTime * 2;
+                yield return null;
+            }
+
+            yield return new WaitForSeconds(0.5f);
+
+            while (Time.timeScale < 1.0f)
+            {
+                Time.timeScale += Time.deltaTime;
+                yield return null;
+            }
         }
-
-        yield return new WaitForSeconds(0.5f);
-
-        while (Time.timeScale < 1.0f)
+        finally
         {
-            Time.timeScale += Time.deltaTime;
-            yield return null;
+            Time.timeScale = 1.0f;
         }
-
-        Time.timeScale = 1.0f;
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        // Debug.Log("Collision detected with " + collision.gameObject.name);
+        if (!isPlayer)
+        {
+            if (collision.transform.root.CompareTag("Untagged") ||
+                collision.transform.root.CompareTag("AICar"))
+            {
+                return;
+            }
+        }
 
         Vector3 velocity = rb.linearVelocity;
         explodeHandler.Explode(velocity * 45);
