@@ -15,8 +15,8 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
-        musicSource.clip = musicSounds[0];
-        musicSource.Play();
+        //musicSource.clip = musicSounds[0];
+       // musicSource.Play();
     }
 
 
@@ -24,13 +24,13 @@ public class AudioManager : MonoBehaviour
 
     private void Update()
     {
-        musicSource.volume = volumeSlider.value;
+        //musicSource.volume = volumeSlider.value;
     }
 
 
 
     public void playSoundEffects()
     {
-        sfxSource.PlayOneShot(sfxSounds[Random.Range(0, sfxSounds.Length)]);
+        //sfxSource.PlayOneShot(sfxSounds[Random.Range(0, sfxSounds.Length)]);
     }
 }
