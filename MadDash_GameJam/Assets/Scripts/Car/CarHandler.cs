@@ -1,23 +1,9 @@
 using System;
 using System.Collections;
 using UnityEngine;
-using TMPro;
 
 public class CarHandler : MonoBehaviour
 {
-
-
-    public float speed => rb.linearVelocity.magnitude;
-
-    public TextMeshProUGUI scoreText;
-
-    Vector3 startPos;
-    float distanceTravelled =0f;
-    float score;
-
-
-    //For The Fuel
-    public FuelGauge fuelGauge;
     [SerializeField]
     Rigidbody rb;
 
@@ -27,10 +13,25 @@ public class CarHandler : MonoBehaviour
     [SerializeField]
     ExplodeHandler explodeHandler;
 
+    [Header("SFX")]
+    [SerializeField]
+    AudioSource carEngineAS;
+
+    [SerializeField]
+    AnimationCurve carPitchAnimationCurve;
+
+    [SerializeField]
+    AudioSource carSkidAS;
+
+    [SerializeField]
+    AudioSource carCrashAS;
+
+
+
     // Max values
     float maxSteeringVelocity = 2;
     float maxForwardVelocity = 30;
-
+    float carMaxSpeedPercentage = 0;
     // Mulipliers
     float accelerationMultiplier = 3;
     float brakeMultiplier = 15;
@@ -45,45 +46,31 @@ public class CarHandler : MonoBehaviour
 
     private void Start()
     {
-        startPos = transform.position;
         isPlayer = CompareTag("Player");
+
+        if (isPlayer)
+            carEngineAS.Play();
     }
 
     void Update()
     {
         if (isExploded)
         {
+            FadeOutCarAudio();
             return;
-        }
-
-
-        float fuelLeft = fuelGauge.currentFuel;
-        if (fuelLeft < 1)
-        {
-
-            Debug.Log("Outta Fuel!");
-            //(Luke) Added That The Car Will Explode If You Have No Fuel
-            Vector3 velocity = rb.linearVelocity;
-            explodeHandler.Explode(velocity * 45);
-
-            isExploded = true;
         }
 
         // Rotate the car model when turning
         gameModel.transform.rotation = Quaternion.Euler(0, rb.linearVelocity.x * 5, 0);
 
-
+        updateCarAudio();
     }
+
 
     void FixedUpdate()
     {
         if (isExploded)
         {
-
-            fuelGauge.currentFuel = 0;
-            
-
-
             rb.linearDamping = rb.linearVelocity.z * 0.1f;
             rb.linearDamping = Mathf.Clamp(rb.linearDamping, 1.5f, 10);
 
@@ -111,22 +98,6 @@ public class CarHandler : MonoBehaviour
         {
             rb.linearVelocity = Vector3.zero;
         }
-
-
-
-        //Luke Score System
-        float distanceFromLastPos = Vector3.Distance(transform.position, startPos);
-        distanceTravelled += distanceFromLastPos;
-        startPos = transform.position;
-
-        float speed = rb.linearVelocity.magnitude;
-
-        if (transform.position.x > -1 & transform.position.x < 1)
-        {
-            score += speed * distanceFromLastPos * Time.fixedDeltaTime;
-        }
-        
-        scoreText.text = $"Score: {Mathf.RoundToInt(score)}";
     }
 
     void Accelerate()
@@ -172,10 +143,41 @@ public class CarHandler : MonoBehaviour
         }
     }
 
+    void updateCarAudio()
+    {
+        if (!isPlayer)
+            return;
+
+        carMaxSpeedPercentage = rb.linearVelocity.z / maxForwardVelocity;
+
+        carEngineAS.pitch = carPitchAnimationCurve.Evaluate(carMaxSpeedPercentage);
+
+        if (input.y < 0 && carMaxSpeedPercentage > 0.2f)
+        {
+            if (!carSkidAS.isPlaying)
+                carSkidAS.Play();
+
+            carSkidAS.volume = Mathf.Lerp(carSkidAS.volume, 1.0f, Time.deltaTime * 10);
+        }
+        else
+        {
+            carSkidAS.volume = Mathf.Lerp(carSkidAS.volume, 0, Time.deltaTime * 30);
+        }
+    }    
+
+    void FadeOutCarAudio()
+    {
+        if (!isPlayer)
+            return;
+
+        carEngineAS.volume = Mathf.Lerp(carEngineAS.volume, 0, Time.deltaTime * 10);
+        carSkidAS.volume = Mathf.Lerp(carSkidAS.volume, 0, Time.deltaTime * 10);
+    }
+
     public void SetInput(Vector2 inputVector)
     {
         inputVector.Normalize();
-
+        
         input = inputVector;
     }
 
@@ -220,32 +222,20 @@ public class CarHandler : MonoBehaviour
             }
         }
 
-
-
-
-
-
-
-
         Vector3 velocity = rb.linearVelocity;
         explodeHandler.Explode(velocity * 45);
 
         isExploded = true;
 
+        carCrashAS.volume = carMaxSpeedPercentage;
+        carCrashAS.volume = Mathf.Clamp(carCrashAS.volume, 0.25f, 1.0f);
+
+        carCrashAS.pitch = carMaxSpeedPercentage;
+        carCrashAS.pitch = Mathf.Clamp(carCrashAS.pitch, 0.3f, 1.0f);
+
+        carCrashAS.Play();
+
+
         StartCoroutine(SlowDownTime());
-    }
-    
-
-
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Fuel"))
-        {
-            Debug.Log("Collected Fuel");
-            Destroy(other.gameObject);
-            int fuelToAdd = UnityEngine.Random.Range(30, 50);
-            fuelGauge.currentFuel += fuelToAdd;
-        }
     }
 }
