@@ -48,7 +48,7 @@ public class AIHandler : MonoBehaviour
         float desiredPositionX = DrivingPosition.CarLanes[drivingInLane];
         float difference = desiredPositionX - transform.position.x;
 
-        if (Mathf.Abs(difference) > 0.1f)
+        if (Mathf.Abs(difference) > 0.02f)
         {
             steerInput = difference;
         }
@@ -74,7 +74,7 @@ public class AIHandler : MonoBehaviour
         try
         {
             numberOfHits = Physics.BoxCastNonAlloc(transform.position, Vector3.one * 0.25f, transform.forward,
-                raycastHits, Quaternion.identity, 2, otherCarsLayerMask);
+                raycastHits, Quaternion.identity, 2.5f, otherCarsLayerMask);
         }
         finally
         {
@@ -86,7 +86,7 @@ public class AIHandler : MonoBehaviour
 
     private void OnEnable()
     {
-        carHandler.SetMaxSpeed(Random.Range(2, 4));
+        carHandler.SetMaxSpeed(Random.Range(2.0f, 4.8f));
         drivingInLane = Random.Range(0, DrivingPosition.CarLanes.Length);
     }
 } 

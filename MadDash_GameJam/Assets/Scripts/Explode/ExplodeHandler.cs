@@ -22,7 +22,7 @@ public class ExplodeHandler : MonoBehaviour
 
     public void Explode(Vector3 externalForce)
     {
-        Debug.Log("Exploding " + originalObject.name + " with force: " + externalForce);
+        //Debug.Log($"Exploding {originalObject.name} with force: {externalForce}.");
 
         originalObject.SetActive(false);
 

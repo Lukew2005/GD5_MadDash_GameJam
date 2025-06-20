@@ -130,6 +130,7 @@ public class CarHandler : MonoBehaviour
 
     public void SetMaxSpeed(float maxSpeed)
     {
+        //Debug.Log($"Setting max speed to: {maxSpeed}, for Car Type: {rb.transform.name}!");
         maxForwardVelocity = maxSpeed;
     }
 
