@@ -5,6 +5,8 @@ public class InputHandler : MonoBehaviour
 {
     [SerializeField]
     CarHandler carHandler;
+    public GameOverScreen GameOverScreen;
+    int maxScore = 0;
 
     private void Awake()
     {
@@ -25,9 +27,10 @@ public class InputHandler : MonoBehaviour
 
         carHandler.SetInput(input);
 
-        //if (Input.GetKeyDown(KeyCode.R))
-        //{
-        //    SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        //}
+    }
+
+    public void GameOver()
+    {
+        GameOverScreen.Setup(maxScore);
     }
 }
