@@ -247,6 +247,14 @@ public class CarHandler : MonoBehaviour
 
 
 
+
+
+    IEnumerator GameOverScreen()
+    {
+        yield return new WaitForSeconds(5f);
+        GameOverCanvas.gameObject.SetActive(true);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Fuel"))
