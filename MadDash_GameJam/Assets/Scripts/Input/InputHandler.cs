@@ -6,6 +6,14 @@ public class InputHandler : MonoBehaviour
     [SerializeField]
     CarHandler carHandler;
 
+    private void Awake()
+    {
+        if (!CompareTag("Player"))
+        {
+            Destroy(this);
+            return;
+        }
+    }
 
     // Update is called once per frame
     void Update()
@@ -17,9 +25,9 @@ public class InputHandler : MonoBehaviour
 
         carHandler.SetInput(input);
 
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        }
+        //if (Input.GetKeyDown(KeyCode.R))
+        //{
+        //    SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        //}
     }
 }
