@@ -29,5 +29,21 @@ public class FuelGauge : MonoBehaviour
 
         float fillAmount = currentFuel / maxFuel;
         fuelFillImage.fillAmount = fillAmount;
+
+
+        if (currentFuel > 60)
+        {
+            fuelFillImage.color = Color.green;
+        }
+
+        if (currentFuel > 20 & currentFuel < 61)
+        {
+            fuelFillImage.color = Color.yellow;
+        }
+
+        if (currentFuel < 21)
+        {
+            fuelFillImage.color = Color.red;
+        }
     }
 }
