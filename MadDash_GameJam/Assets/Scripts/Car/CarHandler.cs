@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class CarHandler : MonoBehaviour
 {
+
+    //For The Fuel
+    public FuelGauge fuelGauge;
     [SerializeField]
     Rigidbody rb;
 
@@ -31,7 +34,7 @@ public class CarHandler : MonoBehaviour
 
     private void Start()
     {
-        isPlayer = CompareTag("Player"); 
+        isPlayer = CompareTag("Player");
     }
 
     void Update()
@@ -41,8 +44,23 @@ public class CarHandler : MonoBehaviour
             return;
         }
 
+
+        float fuelLeft = fuelGauge.currentFuel;
+        if (fuelLeft < 1)
+        {
+
+            Debug.Log("Outta Fuel!");
+            //(Luke) Added That The Car Will Explode If You Have No Fuel
+            Vector3 velocity = rb.linearVelocity;
+            explodeHandler.Explode(velocity * 45);
+
+            isExploded = true;
+        }
+
         // Rotate the car model when turning
         gameModel.transform.rotation = Quaternion.Euler(0, rb.linearVelocity.x * 5, 0);
+
+
     }
 
     void FixedUpdate()
@@ -124,7 +142,7 @@ public class CarHandler : MonoBehaviour
     public void SetInput(Vector2 inputVector)
     {
         inputVector.Normalize();
-        
+
         input = inputVector;
     }
 
@@ -169,11 +187,32 @@ public class CarHandler : MonoBehaviour
             }
         }
 
+
+
+
+
+
+
+
         Vector3 velocity = rb.linearVelocity;
         explodeHandler.Explode(velocity * 45);
 
         isExploded = true;
 
         StartCoroutine(SlowDownTime());
+    }
+    
+
+
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Fuel"))
+        {
+            Debug.Log("Collected Fuel");
+            Destroy(other.gameObject);
+            int fuelToAdd = UnityEngine.Random.Range(30, 50);
+            fuelGauge.currentFuel += fuelToAdd;
+        }
     }
 }

@@ -10,6 +10,9 @@ public class ExplodeHandler : MonoBehaviour
 
     Rigidbody[] rigidbodies;
 
+
+
+
     private void Awake()
     {
         rigidbodies = model.GetComponentsInChildren<Rigidbody>(true);
