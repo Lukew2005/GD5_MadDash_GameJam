@@ -1,9 +1,20 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using TMPro;
 
 public class CarHandler : MonoBehaviour
 {
+
+
+    public float speed => rb.linearVelocity.magnitude;
+
+    public TextMeshProUGUI scoreText;
+
+    Vector3 startPos;
+    float distanceTravelled =0f;
+    float score;
+
 
     //For The Fuel
     public FuelGauge fuelGauge;
@@ -34,6 +45,7 @@ public class CarHandler : MonoBehaviour
 
     private void Start()
     {
+        startPos = transform.position;
         isPlayer = CompareTag("Player");
     }
 
@@ -67,6 +79,11 @@ public class CarHandler : MonoBehaviour
     {
         if (isExploded)
         {
+
+            fuelGauge.currentFuel = 0;
+            
+
+
             rb.linearDamping = rb.linearVelocity.z * 0.1f;
             rb.linearDamping = Mathf.Clamp(rb.linearDamping, 1.5f, 10);
 
@@ -94,6 +111,22 @@ public class CarHandler : MonoBehaviour
         {
             rb.linearVelocity = Vector3.zero;
         }
+
+
+
+        //Luke Score System
+        float distanceFromLastPos = Vector3.Distance(transform.position, startPos);
+        distanceTravelled += distanceFromLastPos;
+        startPos = transform.position;
+
+        float speed = rb.linearVelocity.magnitude;
+
+        if (transform.position.x > -1 & transform.position.x < 1)
+        {
+            score += speed * distanceFromLastPos * Time.fixedDeltaTime;
+        }
+        
+        scoreText.text = $"Score: {Mathf.RoundToInt(score)}";
     }
 
     void Accelerate()

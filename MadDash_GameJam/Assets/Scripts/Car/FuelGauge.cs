@@ -3,6 +3,8 @@ using UnityEngine.UI;
 
 public class FuelGauge : MonoBehaviour
 {
+
+    public CarHandler carHandler;
     public Image fuelFillImage;
     public float maxFuel = 100f;
     public float currentFuel;
@@ -22,10 +24,32 @@ public class FuelGauge : MonoBehaviour
             currentFuel += 10;
         }
 
-        currentFuel -= fuelBurnRate * Time.deltaTime;
-        currentFuel = Mathf.Clamp(currentFuel, 0, maxFuel);
+        float speed = carHandler.speed;
 
 
+        if (speed > 2)
+        {
+            fuelBurnRate = 3;
+            currentFuel -= fuelBurnRate * Time.deltaTime;
+            currentFuel = Mathf.Clamp(currentFuel, 0, maxFuel);
+        }
+
+        if (speed > 10)
+        {
+            fuelBurnRate = 5;
+            currentFuel -= fuelBurnRate * Time.deltaTime;
+            currentFuel = Mathf.Clamp(currentFuel, 0, maxFuel);
+        }
+
+
+
+
+        if (speed > 15)
+        {
+            fuelBurnRate = 7;
+            currentFuel -= fuelBurnRate * Time.deltaTime;
+            currentFuel = Mathf.Clamp(currentFuel, 0, maxFuel);
+        }
 
         float fillAmount = currentFuel / maxFuel;
         fuelFillImage.fillAmount = fillAmount;
