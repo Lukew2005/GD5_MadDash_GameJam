@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CarHandler : MonoBehaviour
 {
@@ -43,6 +44,9 @@ public class CarHandler : MonoBehaviour
     // States
     bool isExploded = false;
     bool isPlayer = true;
+
+    //Game Over Screen
+    public Canvas GameOverCanvas;
 
     private void Start()
     {
@@ -210,6 +214,11 @@ public class CarHandler : MonoBehaviour
             Time.timeScale = 1.0f;
         }
     }
+    IEnumerator GameOverScreen()
+    {
+        yield return new WaitForSeconds(5f);
+        GameOverCanvas.gameObject.SetActive(true);
+    }
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -237,5 +246,7 @@ public class CarHandler : MonoBehaviour
 
 
         StartCoroutine(SlowDownTime());
+
+        StartCoroutine(GameOverScreen());
     }
 }
