@@ -1090,7 +1090,7 @@ GameObject:
   - component: {fileID: -3618422273693227684}
   m_Layer: 0
   m_Name: Car
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1150,9 +1150,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13300d7f7c1d75e4db489db418a530eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  GameOverCanvas: {fileID: 0}
   rb: {fileID: 5435172139513377795}
   gameModel: {fileID: 5612129603074865377}
   explodeHandler: {fileID: 3979650663935705951}
+  fuelGauge: {fileID: 0}
+  scoreText: {fileID: 0}
+  carEngineAS: {fileID: 0}
+  carPitchAnimationCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  carSkidAS: {fileID: 0}
+  carCrashAS: {fileID: 0}
 --- !u!114 &6760738762306548928
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1166,6 +1178,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   carHandler: {fileID: 3323789838544207005}
+  GameOverScreen: {fileID: 0}
 --- !u!114 &3979650663935705951
 MonoBehaviour:
   m_ObjectHideFlags: 0

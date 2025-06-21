@@ -5,6 +5,12 @@ using TMPro;
 
 public class CarHandler : MonoBehaviour
 {
+
+
+
+    public TextMeshProUGUI scoreHolder;
+    public TextMeshProUGUI highScoreHolder;
+    public Canvas GameOverCanvas;
     [SerializeField] Rigidbody rb;
     [SerializeField] Transform gameModel;
     [SerializeField] ExplodeHandler explodeHandler;
@@ -204,6 +210,7 @@ public class CarHandler : MonoBehaviour
         }
 
         StartCoroutine(SlowDownTime());
+        StartCoroutine(GameOverScreen());
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -251,8 +258,11 @@ public class CarHandler : MonoBehaviour
 
     IEnumerator GameOverScreen()
     {
-        yield return new WaitForSeconds(5f);
+        scoreHolder.text = Mathf.RoundToInt(score).ToString();
+        yield return new WaitForSeconds(2.5f);
         GameOverCanvas.gameObject.SetActive(true);
+        
+        
     }
 
     private void OnTriggerEnter(Collider other)
