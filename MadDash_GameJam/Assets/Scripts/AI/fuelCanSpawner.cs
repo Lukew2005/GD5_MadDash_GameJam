@@ -23,10 +23,4 @@ public class fuelCanSpawner : MonoBehaviour
 
         Instantiate(fuelCanPrefab, spawnPos, rotation);
     }
-
-
-
-
-
-
 }

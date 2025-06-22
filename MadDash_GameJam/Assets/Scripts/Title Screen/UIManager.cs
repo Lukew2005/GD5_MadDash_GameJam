@@ -21,8 +21,6 @@ public class UIManager : MonoBehaviour
         quitAudio.Play();
     }
 
-
-
     void Start()
     {
         StartCoroutine(carMovesIn());
@@ -40,9 +38,6 @@ public class UIManager : MonoBehaviour
         yield return new WaitForSeconds(1f);
         title.DOMove(new Vector3(Screen.width / 2, Screen.height / 2, 0), 1);
         car.DOMove(new Vector3(-4, -3.5f, 0), 1);
-
-
-
     }
 
     IEnumerator gameStart()

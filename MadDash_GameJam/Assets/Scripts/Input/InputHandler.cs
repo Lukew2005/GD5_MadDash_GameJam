@@ -17,7 +17,6 @@ public class InputHandler : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
     void Update()
     {
         Vector2 input = Vector2.zero;
@@ -26,7 +25,6 @@ public class InputHandler : MonoBehaviour
         input.y = Input.GetAxis("Vertical");
 
         carHandler.SetInput(input);
-
     }
 
     public void GameOver()

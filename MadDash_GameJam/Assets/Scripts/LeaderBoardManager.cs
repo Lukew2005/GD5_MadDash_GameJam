@@ -3,7 +3,6 @@
 // public class LeaderBoardManager : MonoBehaviour
 // {
 
-
 //     private void Start()
 //     {
 //         LoadEntries();
@@ -33,6 +32,4 @@
 //                 LoadEntries();
 //         });
 //     }
-
-
 // }

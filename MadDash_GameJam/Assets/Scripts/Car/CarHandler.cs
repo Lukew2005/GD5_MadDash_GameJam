@@ -5,9 +5,6 @@ using TMPro;
 
 public class CarHandler : MonoBehaviour
 {
-
-
-
     public TextMeshProUGUI scoreHolder;
     public TextMeshProUGUI highScoreHolder;
     public Canvas GameOverCanvas;
@@ -221,9 +218,6 @@ public class CarHandler : MonoBehaviour
             return;
         }
 
-
-
-
         Explode();
     }
 
@@ -251,25 +245,18 @@ public class CarHandler : MonoBehaviour
         }
     }
 
-
-
-
-
-
     IEnumerator GameOverScreen()
     {
         scoreHolder.text = Mathf.RoundToInt(score).ToString();
         yield return new WaitForSeconds(2.5f);
         GameOverCanvas.gameObject.SetActive(true);
-        
-        
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Fuel"))
         {
-            Debug.Log("Collected Fuel");
+            // Debug.Log("Collected Fuel");
             Destroy(other.gameObject);
             int fuelToAdd = UnityEngine.Random.Range(30, 50);
             fuelGauge.currentFuel += fuelToAdd;

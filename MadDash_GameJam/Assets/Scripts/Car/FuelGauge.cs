@@ -17,15 +17,12 @@ public class FuelGauge : MonoBehaviour
 
     void Update()
     {
-
-
         if (Input.GetKeyDown(KeyCode.Space))
         {
             currentFuel += 10;
         }
 
         float speed = carHandler.speed;
-
 
         if (speed > 2)
         {
@@ -40,9 +37,6 @@ public class FuelGauge : MonoBehaviour
             currentFuel -= fuelBurnRate * Time.deltaTime;
             currentFuel = Mathf.Clamp(currentFuel, 0, maxFuel);
         }
-
-
-
 
         if (speed > 15)
         {
