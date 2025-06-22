@@ -11,7 +11,6 @@ public class BackgroundScrolling : MonoBehaviour
     {
         startpos = transform.position;
         repeatWidth = GetComponent<BoxCollider>().size.x / 2;
-
     }
 
     // Update is called once per frame
