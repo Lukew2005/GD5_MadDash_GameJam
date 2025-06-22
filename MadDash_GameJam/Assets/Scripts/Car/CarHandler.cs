@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using TMPro;
+using Unity.VisualScripting;
 
 public class CarHandler : MonoBehaviour
 {
@@ -35,7 +36,7 @@ public class CarHandler : MonoBehaviour
     Vector2 input = Vector2.zero;
 
     // States
-    bool isExploded = false;
+    public bool isExploded = false;
     bool isPlayer = true;
     float carMaxSpeedPercentage = 0;
 
@@ -45,6 +46,8 @@ public class CarHandler : MonoBehaviour
     float score;
 
     public float speed => rb.linearVelocity.magnitude;
+
+    Dan.Main.LeaderboardReference leaderboard = new("e3af1477ed2f5e161d3f454267ace3ffa0f273a74ed381467dedf514004aaa5f");
 
     private void Start()
     {
@@ -65,7 +68,7 @@ public class CarHandler : MonoBehaviour
 
         if (fuelGauge && fuelGauge.currentFuel < 1)
         {
-            Debug.Log("Outta Fuel!");
+            //Debug.Log("Outta Fuel!");
             Explode();
             return;
         }
@@ -195,9 +198,10 @@ public class CarHandler : MonoBehaviour
     {
         if (isExploded) return;
 
+        isExploded = true;
+
         Vector3 velocity = rb.linearVelocity;
         explodeHandler.Explode(velocity * 45);
-        isExploded = true;
 
         if (carCrashAS)
         {
@@ -208,6 +212,7 @@ public class CarHandler : MonoBehaviour
 
         StartCoroutine(SlowDownTime());
         StartCoroutine(GameOverScreen());
+        StopCoroutine(GameOverScreen());
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -248,12 +253,14 @@ public class CarHandler : MonoBehaviour
     IEnumerator GameOverScreen()
     {
         scoreHolder.text = Mathf.RoundToInt(score).ToString();
-        yield return new WaitForSeconds(2.5f);
+        yield return new WaitForSeconds(3.0f);
         GameOverCanvas.gameObject.SetActive(true);
     }
 
     private void OnTriggerEnter(Collider other)
     {
+        if (isExploded) return;
+
         if (other.CompareTag("Fuel"))
         {
             // Debug.Log("Collected Fuel");
