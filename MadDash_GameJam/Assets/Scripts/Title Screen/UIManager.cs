@@ -1,14 +1,19 @@
-using UnityEngine;
 using DG.Tweening;
 using System.Collections;
+using System.Threading.Tasks;
+using UnityEngine;
 using UnityEngine.SceneManagement;
+
+#if UNITY_EDITOR
+#endif
+
 
 public class UIManager : MonoBehaviour
 {
     public Transform car;
     public Transform title;
     public AudioSource playAudio, quitAudio;
-    
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     public void playButton()
@@ -16,9 +21,11 @@ public class UIManager : MonoBehaviour
         playAudio.Play();
     }
 
-    public void quitButton()
+    public async void quitButton()
     {
         quitAudio.Play();
+        await Task.Delay((int)(quitAudio.clip.length * 1000));
+        QuitGame();
     }
 
     void Start()
@@ -53,7 +60,14 @@ public class UIManager : MonoBehaviour
 
     public void QuitGame()
     {
+        // Debug.Log("Game is Exiting");
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#elif UNITY_WEBGL
+        
+        Application.OpenURL("https://softmine.itch.io/");
+#else
         Application.Quit();
-        Debug.Log("Game is Exiting");
+#endif
     }
 }

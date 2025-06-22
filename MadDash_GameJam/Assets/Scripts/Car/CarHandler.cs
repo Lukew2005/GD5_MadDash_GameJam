@@ -1,8 +1,6 @@
-using System;
 using System.Collections;
-using UnityEngine;
 using TMPro;
-using Unity.VisualScripting;
+using UnityEngine;
 
 public class CarHandler : MonoBehaviour
 {
@@ -45,9 +43,9 @@ public class CarHandler : MonoBehaviour
     float distanceTravelled = 0f;
     float score;
 
-    public float speed => rb.linearVelocity.magnitude;
+    static int highScore;
 
-    Dan.Main.LeaderboardReference leaderboard = new("e3af1477ed2f5e161d3f454267ace3ffa0f273a74ed381467dedf514004aaa5f");
+    public float speed => rb.linearVelocity.magnitude;
 
     private void Start()
     {
@@ -212,7 +210,6 @@ public class CarHandler : MonoBehaviour
 
         StartCoroutine(SlowDownTime());
         StartCoroutine(GameOverScreen());
-        StopCoroutine(GameOverScreen());
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -228,33 +225,36 @@ public class CarHandler : MonoBehaviour
 
     IEnumerator SlowDownTime()
     {
-        try
+        while (Time.timeScale > 0.2f)
         {
-            while (Time.timeScale > 0.2f)
-            {
-                Time.timeScale -= Time.deltaTime * 2;
-                yield return null;
-            }
-
-            yield return new WaitForSeconds(0.5f);
-
-            while (Time.timeScale < 1.0f)
-            {
-                Time.timeScale += Time.deltaTime;
-                yield return null;
-            }
+            Time.timeScale -= Time.deltaTime * 2;
+            yield return null;
         }
-        finally
+
+        yield return new WaitForSeconds(0.5f);
+
+        while (Time.timeScale < 1.0f)
         {
-            Time.timeScale = 1.0f;
+            Time.timeScale += Time.deltaTime;
+            yield return null;
         }
     }
 
     IEnumerator GameOverScreen()
     {
-        scoreHolder.text = Mathf.RoundToInt(score).ToString();
-        yield return new WaitForSeconds(3.0f);
-        GameOverCanvas.gameObject.SetActive(true);
+        if (scoreHolder != null)
+        {
+            int iScore = Mathf.RoundToInt(score);
+            scoreHolder.text = iScore.ToString();
+            if (iScore > highScore)
+            {
+                highScore = iScore;
+            }
+            highScoreHolder.text = highScore.ToString();
+
+            yield return new WaitForSeconds(2.5f);
+            GameOverCanvas.gameObject.SetActive(true);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -266,7 +266,10 @@ public class CarHandler : MonoBehaviour
             // Debug.Log("Collected Fuel");
             Destroy(other.gameObject);
             int fuelToAdd = UnityEngine.Random.Range(30, 50);
-            fuelGauge.currentFuel += fuelToAdd;
+            if (fuelGauge != null)
+            {
+                fuelGauge.currentFuel += fuelToAdd;
+            }
         }
     }
 }

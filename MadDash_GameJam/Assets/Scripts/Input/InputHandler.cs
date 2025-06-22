@@ -5,8 +5,6 @@ public class InputHandler : MonoBehaviour
 {
     [SerializeField]
     CarHandler carHandler;
-    public GameOverScreen GameOverScreen;
-    int maxScore = 0;
 
     private void Awake()
     {
@@ -25,10 +23,5 @@ public class InputHandler : MonoBehaviour
         input.y = Input.GetAxis("Vertical");
 
         carHandler.SetInput(input);
-    }
-
-    public void GameOver()
-    {
-        GameOverScreen.Setup(maxScore);
     }
 }
