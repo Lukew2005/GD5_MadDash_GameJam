@@ -13,8 +13,6 @@ public class AICarSpawner : MonoBehaviour
 
     Transform playerCarTransform;
 
-    CarHandler playerCarHandler;
-
     [SerializeField]
     LayerMask otherCarsLayerMask;
 
@@ -23,7 +21,6 @@ public class AICarSpawner : MonoBehaviour
     void Start()
     {
         playerCarTransform = GameObject.FindGameObjectWithTag("Player").transform;
-        playerCarHandler = playerCarTransform.GetComponent<CarHandler>();
 
         int prefabIndex = 0;
 
@@ -48,7 +45,7 @@ public class AICarSpawner : MonoBehaviour
 
     IEnumerator UpdateLessOften()
     {
-        while (playerCarHandler != null && !playerCarHandler.isExploded)
+        while (true)
         {
             CleanUpCarsBeyondView();
             SpawnNewCars();
