@@ -18,11 +18,11 @@ public class GameOverScreen : MonoBehaviour
 
     public void MenuButton()
     {
-        SceneManager.LoadScene("Title Scene");
+        SceneManager.LoadScene("Title Screen");
     }
 
-    // public void LeaderboardButton()
-    // {
-    //     SceneManager.LoadScene("Leaderboard");
-    // }
+    public void LeaderboardButton()
+    {
+        SceneManager.LoadScene("Leaderboard");
+    }
 }
