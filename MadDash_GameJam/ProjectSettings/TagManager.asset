@@ -6,6 +6,7 @@ TagManager:
   tags:
   - AICar
   - AICarPart
+  - Fuel
   layers:
   - Default
   - TransparentFX

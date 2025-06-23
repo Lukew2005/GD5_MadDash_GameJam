@@ -9,7 +9,7 @@ public class AICarSpawner : MonoBehaviour
 
     GameObject[] carAIPool = new GameObject[20];
 
-    WaitForSeconds wait = new WaitForSeconds(2.0f);
+    WaitForSeconds wait = new (5.0f);
 
     Transform playerCarTransform;
 
